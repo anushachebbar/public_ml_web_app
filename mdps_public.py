@@ -3,16 +3,17 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 
-# ================== Load Saved Models ==================
+# loading the saved models
 diabetes_model = pickle.load(open('diabetes_model.sav', 'rb'))
 heart_disease_model = pickle.load(open('heart_disease_model.sav', 'rb'))
 parkinsons_model = pickle.load(open('parkinsons_model.sav', 'rb'))
-parkinsons_scaler = pickle.load(open('parkinsons_scaler.sav', 'rb'))   # NEW: load scaler
 
 
-# ================== Sidebar Navigation ==================
+# sidebar for navigation
 with st.sidebar:
+    
     selected = option_menu('Multiple Disease Prediction System',
+                          
                           ['Diabetes Prediction',
                            'Heart Disease Prediction',
                            'Parkinsons Prediction'],
@@ -20,7 +21,7 @@ with st.sidebar:
                           default_index=0)
     
     
-# ================== Diabetes Prediction ==================
+# ================== Diabetes Prediction Page ==================
 if (selected == 'Diabetes Prediction'):
     
     st.title('Diabetes Prediction using ML')
@@ -64,9 +65,9 @@ if (selected == 'Diabetes Prediction'):
             diab_prediction = diabetes_model.predict([user_input])
         
             if (diab_prediction[0] == 1):
-                diab_diagnosis = '✅ The person is diabetic'
+                diab_diagnosis = 'The person is diabetic'
             else:
-                diab_diagnosis = '✅ The person is not diabetic'
+                diab_diagnosis = 'The person is not diabetic'
         except:
             diab_diagnosis = "⚠️ Please enter valid numeric values"
         
@@ -74,7 +75,8 @@ if (selected == 'Diabetes Prediction'):
 
 
 
-# ================== Heart Disease Prediction ==================
+
+# ================== Heart Disease Prediction Page ==================
 if (selected == 'Heart Disease Prediction'):
     
     st.title('Heart Disease Prediction using ML')
@@ -133,9 +135,9 @@ if (selected == 'Heart Disease Prediction'):
             heart_prediction = heart_disease_model.predict([user_input])                          
         
             if (heart_prediction[0] == 1):
-                heart_diagnosis = '✅ The person is having heart disease'
+                heart_diagnosis = 'The person is having heart disease'
             else:
-                heart_diagnosis = '✅ The person does not have any heart disease'
+                heart_diagnosis = 'The person does not have any heart disease'
         except:
             heart_diagnosis = "⚠️ Please enter valid numeric values"
         
@@ -144,7 +146,7 @@ if (selected == 'Heart Disease Prediction'):
     
     
 
-# ================== Parkinson's Prediction ==================
+# ================== Parkinson's Prediction Page ==================
 if (selected == "Parkinsons Prediction"):
     
     st.title("Parkinson's Disease Prediction using ML")
@@ -228,18 +230,13 @@ if (selected == "Parkinsons Prediction"):
 
             user_input = [float(x) for x in user_input]  # Convert to float
 
-            # Scale inputs (important!)
-            user_input = parkinsons_scaler.transform([user_input])
-
-            parkinsons_prediction = parkinsons_model.predict(user_input)                          
+            parkinsons_prediction = parkinsons_model.predict([user_input])                          
         
             if (parkinsons_prediction[0] == 1):
-                parkinsons_diagnosis = "✅ The person has Parkinson's disease"
+                parkinsons_diagnosis = "The person has Parkinson's disease"
             else:
-                parkinsons_diagnosis = "✅ The person does not have Parkinson's disease"
+                parkinsons_diagnosis = "The person does not have Parkinson's disease"
         except:
             parkinsons_diagnosis = "⚠️ Please enter valid numeric values"
         
     st.success(parkinsons_diagnosis)
-
-
